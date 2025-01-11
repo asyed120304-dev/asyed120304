@@ -1,0 +1,52 @@
+GoogleCredential credential =
+        GoogleCredential.fromStream(new FileInputStream("MyProject-1234.json"));
+PrivateKey privateKey = credential.getServiceAccountPrivateKey();
+String privateKeyId = credential.getServiceAccountPrivateKeyId();
+
+long now = System.currentTimeMillis();
+
+try {
+    Algorithm algorithm = Algorithm.RSA256(null, privateKey);
+    String signedJwt = JWT.create()
+        .withKeyId(privateKeyId)
+        .withIssuer("123456-compute@developer.gserviceaccount.com")
+        .withSubject("123456-compute@developer.gserviceaccount.com")
+        .withAudience("https://firestore.googleapis.com/")
+        .withIssuedAt(new Date(now))
+        .withExpiresAt(new Date(now + 3600 * 1000L))
+        .sign(algorithm);
+} catch ...123456-compute@developer.gserviceaccount.com3600https://firestore.googleapis.com/{
+  "alg": "RS256",
+  "typ": "JWT",
+  "kid": "abcdef1234567890"
+}
+.
+{
+  "iss": "123456-compute@developer.gserviceaccount.com",
+  "sub": "123456-compute@developer.gserviceaccount.com",
+  "aud": "https://firestore.googleapis.com/",
+  "iat": 1511900000,
+  "exp": 1511903600
+}123456789015119036001511900000SQLAdmin.Instances.ListSQLAdmin.Instances.List instances =
+    sqladmin.instances().list("exciting-example-123").execute();SQLAdmin sqladmin =
+    new SQLAdmin.Builder(httpTransport, JSON_FACTORY, credential).build();GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream("MyProject-1234.json"))
+    .createScoped(Collections.singleton(SQLAdminScopes.SQLSERVICE_ADMIN))
+    .createDelegated("workspace-user@example.com");workspace-user@example.comname: Clojure CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: lein deps
+    - name: Run tests
+      run: lein test
